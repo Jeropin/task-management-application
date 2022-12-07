@@ -49,9 +49,23 @@ const updateProject = async (req, res) => {
     }
 };
 
+const deleteProjectById = async (req, res) =>{
+    const {
+        params: {id}
+    } = req;
+
+    try{
+        const project = await ProjectService.deleteProjectById(id)
+        res.json(project);
+    } catch (error){
+        res.status(500).send({error: error.toString()});
+    }
+}
+
 module.exports = {
     getProjects,
     getProjectById,
     addProject,
-    updateProject
+    updateProject,
+    deleteProjectById
 };

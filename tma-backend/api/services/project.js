@@ -3,6 +3,8 @@ const Project = require('../models/project');
 const SharedService = require('../services/shared');
 const UserService = require('../services/user');
 
+
+
 // helper function which interacts with the UserService
 const _getValidUsers = async (users) => {
     if (users && users.length) {
@@ -94,6 +96,8 @@ const updateProject = async (id, body) => {
     );
 };
 
+const deleteProjectById = async (id) => await SharedService.remove(Project, id)
+
 // IMPORTANT
 // these two support functions have logic that is based off the Mongoose Models
 // and those Models define the relationship between Project, Task and User
@@ -113,5 +117,6 @@ module.exports = {
     getProjectById,
     updateProject,
     addProjectUser,
-    removeProjectUser
+    removeProjectUser,
+    deleteProjectById
 };

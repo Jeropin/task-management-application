@@ -14,4 +14,7 @@ router.get('/:id', project.getProjectById);
 // PUT /projects/:id
 router.put('/:id', project.updateProject);
 
+// DELETE /projects/:id
+router.delete('/:id', project.deleteProjectById);
+
 module.exports = router;
