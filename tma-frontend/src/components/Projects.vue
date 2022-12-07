@@ -1,5 +1,5 @@
 <template>
-    <button class="btn add" @click="openProjectModal()">Add Project</button>
+    <button class="btn add" @click="loadProject()">Add Project</button>
     <div v-for="project in projects" class="card">
         <div class="container">
             <h1>{{project.name}}</h1>
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <ProjectModal v-if="showModal" v-bind:project="project_data" v-bind:users="available_users" v-show="showModal" @closeModal="closeModal" @refresh="refresh"></ProjectModal>
+    <ProjectModal v-if="showModal" v-bind:project="project_data" v-bind:available_users="available_users" v-show="showModal" @closeModal="closeModal" @refresh="refresh"></ProjectModal>
 </template>
 
 <script>
@@ -67,11 +67,9 @@ export default{
             const usersRes = await fetch(`http://localhost:8888/users/?project=${projectId}`);
             const users = await usersRes.json();
 
-            console.log(usersRes)
-
-            // this.available_users = users.map(user => {
-            //     return { _id: user._id, name: `${user.first} ${user.last}` }
-            // })
+            this.available_users = users.map(user => {
+                return { _id: user._id, name: `${user.first} ${user.last}` }
+            })
 
             this.project_data = {};
 

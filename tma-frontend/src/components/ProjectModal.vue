@@ -1,11 +1,10 @@
 <!-- Can be created to hold all forms, therefore make this more flexible -->
 <template>
-    <!-- <div class="modal-container"> -->
     <div>
-        <div class="card">
-            <ProjectForm v-bind:project="project" v-bind:available_users="available_users" @refresh="refresh"/>
+        <!-- <div class="card"> -->
+            <ProjectForm v-if="project" v-bind:project="project" v-bind:available_users="available_users"/>
             <button class="btn default" @click="closeModal">Close</button>
-        </div>
+        <!-- </div> -->
     </div>
 </template>
 

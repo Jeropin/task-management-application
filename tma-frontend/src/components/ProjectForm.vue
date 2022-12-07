@@ -2,7 +2,7 @@
     <form>
         <div>
             <label>Project Name</label>
-            <input type="text" v-model="project.name" name="name"/>
+            <input v-model="project.name" type="text" name="name"/>
         </div>
         <div>
             <label>Description</label>
@@ -10,7 +10,7 @@
         </div>
         <div>
             <label>Repository</label>
-            <input type="text" v-model="project.repository" name="repository"/>
+            <input v-model="project.repository" type="text" name="repository"/>
         </div>
         <div>
             <label>Manager</label>
@@ -23,14 +23,14 @@
         <div>
             <label>Users</label>
             <select multiple v-model="selected_users">
-                <option v-for="users in available_users" :value="users._id">{{user.name}}</option>
+                <option v-for="user in available_users" :value="user._id">{{user.name}}</option>
             </select>
         </div>
-        
+<!--         
         <div>
             <label>Tasks</label>
             <p>{{project.tasks}}</p>
-        </div>
+        </div> -->
 
         <div>
             <input v-if="project._id" type="button" @click="updateProject" value="Update">
@@ -47,6 +47,7 @@ export default{
     name: "ProjectForm",
     props:{
         project: Object,
+        available_users: Array
     },
 
     data(){
