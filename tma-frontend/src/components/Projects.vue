@@ -1,3 +1,4 @@
+<!-- Container Component for all Projects -->
 <template>
     <button class="btn add" @click="loadProject()">Add Project</button>
     <div v-for="project in projects" class="card">
@@ -7,12 +8,17 @@
             <h3>{{project.repository}}</h3>
             <!-- <button class="btn view"> View</button> -->
             <RouterLink :to="`projects/${project._id}`" class="btn view"> View </RouterLink>
+            <!-- <RouterLink :to="`projects/${project._id}`" class="btn edit"> Edit </RouterLink> -->
+            <!-- <RouterLink :to="`projects/${project._id}`" class="btn delete"> Delete </RouterLink> -->
             <button class="btn edit" @click="loadProject(project.id)">Edit</button>
             <button class="btn delete" @click="deleteProject(project.id)">Delete</button>
         </div>
     </div>
 
-    <ProjectModal v-if="showModal" v-bind:project="project_data" v-bind:available_users="available_users" v-show="showModal" @closeModal="closeModal" @refresh="refresh"></ProjectModal>
+    <ProjectModal v-if="showModal" 
+    v-bind:project="project_data" v-bind:available_users="available_users"  v-bind:available_managers="available_managers" 
+    v-show="showModal" @closeModal="closeModal" @refresh="refresh">
+    </ProjectModal>
 </template>
 
 <script>
@@ -28,6 +34,7 @@ export default{
     data(){
         return{
             available_users:[],
+            available_managers: [],
             project_data: {},
             projects:[],
             showModal: false,
@@ -35,13 +42,15 @@ export default{
     },
 
     methods: {
-        openProjectModal(project){
-            this.showModal = true;
-            this.project_data = project ? {...project} : {}
-        },
-
         closeModal(){
             this.showModal=false
+        },
+
+        async refresh(){
+            const res = await fetch('http://localhost:8888/projects');
+            
+            const body = await res.json();
+            this.projects = body;
         },
 
         async deleteProject(_id){
@@ -54,12 +63,6 @@ export default{
             this.refresh();
         },
         
-        async refresh(){
-            const res = await fetch('http://localhost:8888/projects');
-            
-            const body = await res.json();
-            this.projects = body;
-        },
 
         //Coding On Tuesday 
         async loadProject(projectId=null){
@@ -67,9 +70,21 @@ export default{
             const usersRes = await fetch(`http://localhost:8888/users/?project=${projectId}`);
             const users = await usersRes.json();
 
-            this.available_users = users.map(user => {
-                return { _id: user._id, name: `${user.first} ${user.last}` }
-            })
+            const employees = users.map(user => {
+                if (user.position !== 'manager'){
+                    return { _id: user._id, name: `${user.first} ${user.last}` }
+                }
+            });
+
+            this.available_users = employees.filter(employee => employee)
+
+            const managers = users.map(user =>{
+                if(user.position === 'manager'){
+                    return { _id: user._id, name: `${user.first} ${user.last}`}
+                }
+            });
+
+            this.available_managers = managers.filter(manager => manager);
 
             this.project_data = {};
 

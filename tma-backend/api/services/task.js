@@ -79,6 +79,14 @@ const updateTask = async (id, body) => {
     });
 };
 
+const getTaskPriorities = () =>{
+    return Task.schema.path('priority').enumValues;
+}
+
+const getTaskStatuses = () =>{
+    return Task.schema.path('status').enumValues;
+}
+
 const removeTask = async (id) => await SharedService.remove(Task, id);
 
 // IMPORTANT
@@ -93,5 +101,7 @@ module.exports = {
     getTaskById,
     updateTask,
     removeTask,
-    removeTaskUser
+    removeTaskUser,
+    getTaskPriorities,
+    getTaskStatuses,
 };

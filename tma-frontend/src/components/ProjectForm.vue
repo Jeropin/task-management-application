@@ -1,3 +1,4 @@
+<!-- Project Form -->
 <template>
     <form>
         <div>
@@ -15,13 +16,16 @@
         <div>
             <label>Manager</label>
             <select v-model="selected_manager">
-                <option v-for="manager in available_users" :value="manager._id" :selected="(selected_manager === manager._id)">
+                <option v-for="manager in available_managers" :value="manager._id" :selected="(selected_manager === manager._id)">
                     {{manager.name}}
                 </option>
             </select>
         </div>
         <div>
-            <label>Users</label>
+            
+        </div>
+        <div>
+            <label>Available Users</label>
             <select multiple v-model="selected_users">
                 <option v-for="user in available_users" :value="user._id">{{user.name}}</option>
             </select>
@@ -47,7 +51,8 @@ export default{
     name: "ProjectForm",
     props:{
         project: Object,
-        available_users: Array
+        available_users: Array,
+        available_managers: Array,
     },
 
     data(){
@@ -81,7 +86,7 @@ export default{
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(this.project)
+                body: JSON.stringify(data)
             });
 
             if (res.ok){
@@ -93,13 +98,19 @@ export default{
         },
 
         async updateProject(){
+            const data = {
+                ...this.project,
+                manager: this.selected_manager,
+                users: this.selected_users
+            }
+
             const res = await fetch(`http://localhost:8888/projects/${this.project._id}`, {
                 method: 'PUT',
                 mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(this.project)
+                body: JSON.stringify(data)
             });
 
             if (res.ok){
@@ -112,6 +123,9 @@ export default{
     },
 
     async created() {
+        if (this.project._id) {
+            this.selected_manager = this.project.manager._id
+        }
     }
 }
 </script>

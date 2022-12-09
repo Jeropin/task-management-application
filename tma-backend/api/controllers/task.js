@@ -51,9 +51,29 @@ const removeTask = async (req, res) => {
     }
 };
 
+const getTaskPriorities = (req, res) => {
+    try{
+        const priorities = TaskService.getTaskPriorities()
+        res.json(priorities)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+const getTaskStatuses = (req, res) => {
+    try{
+        const statuses = TaskService.getTaskStatuses()
+        res.json(statuses)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
 module.exports = {
     addTask,
     getTaskById,
     updateTask,
-    removeTask
+    removeTask,
+    getTaskPriorities,
+    getTaskStatuses,
 };
