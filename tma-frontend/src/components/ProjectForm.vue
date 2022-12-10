@@ -2,6 +2,9 @@
 <template>
     <form>
         <div>
+            <h2>{{project_name}}</h2>
+        </div>
+        <div>
             <label>Project Name</label>
             <input v-model="project.name" type="text" name="name"/>
         </div>
@@ -61,6 +64,7 @@ export default{
             error: null,
             selected_manager: '',
             selected_users: [],
+            project_name: '',
         }
     },
 
@@ -126,6 +130,7 @@ export default{
     async created() {
         if (this.project._id) {
             this.selected_manager = this.project.manager._id
+            this.project_name = this.project.name
         }
     }
 }

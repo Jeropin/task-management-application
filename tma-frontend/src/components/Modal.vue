@@ -2,7 +2,7 @@
 <!-- Project Modal -->
 <template>
     <div class="modal-container">
-        <div class="card">
+        <div class="modal-card">
             <ProjectForm v-if="project" 
                 v-bind:project="project" v-bind:available_users="available_users" v-bind:available_managers="available_managers"
                 @closeModal="closeModal" @refresh="refresh"/>

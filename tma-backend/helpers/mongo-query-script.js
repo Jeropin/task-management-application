@@ -39,11 +39,11 @@ const seedData = async () => {
         isActive: true,
     });
 
-    const inactive_user = await User.create({
+    const user1 = await User.create({
         first: "Anais",
         last: "Waterson",
         position: "developer",
-        isActive: false,
+        isActive: true,
     });
 
     // clean Projects collection
@@ -52,9 +52,9 @@ const seedData = async () => {
     // create some projects with VALID relationships
     // associate a user or users to the project because they are not associated to any other project
     const project = await Project.create({
-        name: "My First Project",
-        description: "This is my first project",
-        repository: "my repository",
+        name: "Homework 3",
+        description: "Homework 3 for CS 5220",
+        repository: "https://github.com/Jeropin/task-management-application.git",
         manager: manager,
         users: user, 
     });
@@ -63,7 +63,7 @@ const seedData = async () => {
         name: "My Second Project",
         description: "My second Project",
         manager: manager2,
-        users: inactive_user,
+        users: user1,
     });
 
     // clean the Tasks collection

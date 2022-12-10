@@ -2,6 +2,9 @@
     <form>
         <div>
             <div>
+                <h2>{{task_name}}</h2>
+            </div>
+            <div>
                 <label>Task Name</label>
                 <input type="text" v-model="task.name" name="name" />
             </div>
@@ -11,14 +14,14 @@
             </div>
             <div>
                 <div>
-                    <label>Assigned</label>
+                    <label>Date Assigned</label>
                     <input type="text" v-model="task.timeline.assigned" name="assigned" />
 
-                    <label>Due</label>
+                    <label>Date Due</label>
                     <input type="text" v-model="task.timeline.due" name="due" />
 
-                    <label>Last Updated</label>
-                    <input type="text" v-model="task.timeline.last_updated" name="last_updated" readonly/> 
+                    <label>Date Last Updated</label>
+                    <input type="text" v-model="task.timeline.last_updated" name="last_updated"/> 
                 </div>
             </div>
             <div>
@@ -39,8 +42,8 @@
                 </select>
             </div>
             <div>
-                <label>Assigned Users</label>
-                <input type="text" :value="assigned_user.name" readonly />
+                <label>Assigned User</label>
+                <input type="text" :value="assigned_user.name" placeholder="none" readonly />
             </div>
             <div>
                 <label>Available User</label>
@@ -72,6 +75,16 @@ export default {
         priorities: Array,
         statuses: Array,
         project_name: String,
+    },
+
+    data() {
+        return{
+            selected_priority: '',
+            selected_status: '',
+            selected_user: '',
+            assigned_user: '',
+            task_name: '',
+        }
     },
 
     methods:{
@@ -138,15 +151,6 @@ export default {
         }
     },
 
-    data() {
-        return{
-            selected_priority: '',
-            selected_status: '',
-            selected_user: '',
-            assigned_user: ''
-        }
-    },
-
     async created() {
         if (this.task._id){
             this.selected_status = this.task.status
@@ -156,7 +160,7 @@ export default {
             const user = await userRes.json();
             this.assigned_user = {id: user._id, name: `${user.first} ${user.last}` }
             this.selected_user = user._id
-
+            this.task_name = this.task.name
         }
     }
 }

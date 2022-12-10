@@ -6,8 +6,7 @@
             <h1>{{project.name}}</h1>
             <h2>{{project.description}}</h2>
             <h3>{{project.repository}}</h3>
-            <RouterLink :to="`projects/${project._id}`" class="btn edit"> Edit </RouterLink>
-            <!-- <button class="btn edit" @click="loadProject(project.id)">Edit</button> -->
+            <RouterLink :to="`/projects/${project._id}`" class="btn edit"> Edit </RouterLink>
             <button class="btn delete" @click="deleteProject(project.id)">Delete</button>
         </div>
     </div>

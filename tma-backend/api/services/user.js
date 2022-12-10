@@ -8,22 +8,23 @@ const User = require('../models/User');
 const SharedService = require('../services/shared');
 
 const getAllUsers = async (query) => {
+    // ?isActive=true
     if (query.isActive) {
         const isActive = query.isActive === 'true';
         return await User.find({ isActive });
     }
 
     // ?project=1234567890 || ?project=null
-    if(query.project){
+    if (query.project) {
         // $or accepts an array of all OR conditions
-        // declare the base orMatch array where we are looking for users not assiged to any projects
-        const orMatch = [{project: {$exists: false}}]
+        // declare the base or match array where we are looking for users not assiged to any projects
+        const orMatch = [{ project: { $exists: false } }];
 
-        // if the query specified a valid project id then add to the orMatch array
-        // push in the condition that the user must already be associated to the project based on id
-        if (query.project !== 'null'){
+        // if the query specified a valid project id then add to the or match array
+        // push in the condition that the user must already be associated the the project based on id
+        if (query.project !== 'null') {
             orMatch.push({
-                'projects._id': {
+                'project._id': {
                     $eq: ObjectId(query.project)
                 }
             });
@@ -36,7 +37,7 @@ const getAllUsers = async (query) => {
         // $match where user must be on the specified project OR the must not be assigned to any other projects
         return await User.aggregate([
             {
-                $match: { isActive: true}
+                $match: { isActive: true }
             },
             {
                 $lookup: {
@@ -48,8 +49,8 @@ const getAllUsers = async (query) => {
             },
             {
                 $unwind: {
-                    path:'$project',
-                    preserveNullAndEmptyArrays: true,
+                    path: '$project',
+                    preserveNullAndEmptyArrays: true
                 }
             },
             {
