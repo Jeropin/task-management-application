@@ -76,6 +76,7 @@ const seedData = async () => {
         name: "Create Task",
         details: "Create task for My First Project",
         priority: "high",
+        status: "assigned",
         timeline:{
             assigned: '2022-12-3',
             due: '2023-02-05',
@@ -89,6 +90,7 @@ const seedData = async () => {
         name: "My New Task",
         details: "This is a new task",
         priority: "low",
+        status: "assigned",
         timeline:{
             assigned: '2022-12-3',
             due: '2023-02-05',
@@ -102,6 +104,7 @@ const seedData = async () => {
         name: "Commit",
         details: "Commitment",
         priority: "medium",
+        status: "assigned",
         timeline:{
             assigned: '2022-11-11',
             due: '2023-02-05',
@@ -113,7 +116,7 @@ const seedData = async () => {
 
     mongoose.connection.close();
 };
-// seedData();
+seedData();
 
 const runQueries = async () => {
     const user = await User.findById('638c0f03da64f3f44c82c411');
@@ -137,4 +140,4 @@ const runQueries = async () => {
 
     mongoose.connection.close();
 };
-runQueries();
+// runQueries();

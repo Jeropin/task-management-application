@@ -16,11 +16,11 @@ const getAllUsers = async (query) => {
     // ?project=1234567890 || ?project=null
     if(query.project){
         // $or accepts an array of all OR conditions
-        // declare the base or match array where we are looking for users not assiged to any projects
+        // declare the base orMatch array where we are looking for users not assiged to any projects
         const orMatch = [{project: {$exists: false}}]
 
-        // if the query specified a valid project id then add to the or match array
-        // push in the condition that the user must already be associated the the project based on id
+        // if the query specified a valid project id then add to the orMatch array
+        // push in the condition that the user must already be associated to the project based on id
         if (query.project !== 'null'){
             orMatch.push({
                 'projects._id': {

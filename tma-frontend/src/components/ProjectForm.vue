@@ -22,7 +22,10 @@
             </select>
         </div>
         <div>
-            
+            <label>Assigned Users</label>
+            <select multiple disabled>
+                <option v-for="user in assigned_project_users" readonly>{{user.name}}</option>
+            </select>
         </div>
         <div>
             <label>Available Users</label>
@@ -30,15 +33,12 @@
                 <option v-for="user in available_users" :value="user._id">{{user.name}}</option>
             </select>
         </div>
-<!--         
-        <div>
-            <label>Tasks</label>
-            <p>{{project.tasks}}</p>
-        </div> -->
 
         <div>
-            <input v-if="project._id" type="button" @click="updateProject" value="Update">
-            <input v-else type="button" @click="addProject" value="Add">
+            <input v-if="project._id" type="button" @click="updateProject" value="Update" class="btn update">
+
+
+            <input v-else type="button" @click="addProject" value="Add" class="btn add">
         </div>
         
     </form>
@@ -53,6 +53,7 @@ export default{
         project: Object,
         available_users: Array,
         available_managers: Array,
+        assigned_project_users: Array,
     },
 
     data(){
@@ -91,7 +92,7 @@ export default{
 
             if (res.ok){
                 this.$emit('closeModal');
-                this.$emit('refresh');
+                this.$router.go()
             } else {
                 this.handleError()
             }
@@ -115,7 +116,7 @@ export default{
 
             if (res.ok){
                 this.$emit('closeModal')
-                this.$emit('refresh')
+                this.$router.go()
             } else {
                 this.handleError()
             }

@@ -70,8 +70,9 @@ const updateTask = async (id, body) => {
         await ProjectService.addProjectUser(project_id, updateTask.user);
     }
 
+    // Commented out since it is causing errors -Jerome
     // update the timeline.last_updated property
-    updateTask.timeline.last_updated = Date.now();
+    // updateTask.timeline.last_updated = Date.now();
 
     return await Task.findByIdAndUpdate({ _id: id }, updateTask, {
         returnDocument: 'after',

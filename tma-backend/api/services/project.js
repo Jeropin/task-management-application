@@ -60,7 +60,7 @@ const addProject = async (body) => {
 const getProjectById = async (id) => {
     return await Project.findById(id)
         .populate('manager')
-        .populate('tasks', 'name details status, user');
+        .populate('tasks');
 };
 
 const updateProject = async (id, body) => {

@@ -6,7 +6,7 @@ const user = require('../controllers/user');
 router.get('/', user.getUsers);
 
 // GET /users/:id
-router.get('/:id', user.updateUser);
+router.get('/:id', user.getUserById);
 
 // PUT /users/:id
 router.put('/:id', user.updateUser);
